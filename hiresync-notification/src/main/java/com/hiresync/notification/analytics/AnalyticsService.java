@@ -17,11 +17,11 @@ public class AnalyticsService {
     public List<Map<String, Object>> getFunnel(String userId) {
         List<Object[]> rows = analyticsRepository.countByStatusForUser(userId);
         List<Map<String, Object>> result = new ArrayList<>();
-        Map<String, Integer> order = Map.of(
-                "WISHLIST", 0, "APPLIED", 1, "RECRUITER_CALL", 2,
-                "TECHNICAL_SCREEN", 3, "TAKE_HOME", 4, "FINAL_ROUND", 5,
-                "OFFER", 6, "NEGOTIATING", 7, "ACCEPTED", 8,
-                "REJECTED", 9, "WITHDRAWN", 10, "GHOSTED", 11
+        Map<String, Integer> order = Map.ofEntries(
+                Map.entry("WISHLIST", 0), Map.entry("APPLIED", 1), Map.entry("RECRUITER_CALL", 2),
+                Map.entry("TECHNICAL_SCREEN", 3), Map.entry("TAKE_HOME", 4), Map.entry("FINAL_ROUND", 5),
+                Map.entry("OFFER", 6), Map.entry("NEGOTIATING", 7), Map.entry("ACCEPTED", 8),
+                Map.entry("REJECTED", 9), Map.entry("WITHDRAWN", 10), Map.entry("GHOSTED", 11)
         );
         for (Object[] row : rows) {
             Map<String, Object> item = new LinkedHashMap<>();
