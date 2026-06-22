@@ -18,7 +18,7 @@ public class AiServiceConfig {
 
     @Bean
     public EmbeddingStore<TextSegment> embeddingStore(DataSource dataSource) {
-        return PgVectorEmbeddingStore.builder()
+        return PgVectorEmbeddingStore.datasourceBuilder()
                 .datasource(dataSource)
                 .table("langchain4j_embeddings")
                 .dimension(768)  // Google text-embedding-004 dimension
