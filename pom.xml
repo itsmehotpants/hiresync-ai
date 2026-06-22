@@ -27,7 +27,7 @@
 
         <!-- Core versions -->
         <spring-boot.version>3.3.5</spring-boot.version>
-        <langchain4j.version>1.0.0-beta6</langchain4j.version>
+        <langchain4j.version>0.35.0</langchain4j.version>
 
         <!-- Utility versions -->
         <jjwt.version>0.12.6</jjwt.version>
