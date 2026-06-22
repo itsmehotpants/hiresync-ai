@@ -1,0 +1,92 @@
+spring:
+  application:
+    name: hiresync-ai-service
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:5432/${POSTGRES_DB:hiresync}
+    username: ${POSTGRES_USER:hiresync}
+    password: ${POSTGRES_PASSWORD:hiresync_local_password}
+    hikari:
+      maximum-pool-size: 5
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+
+  flyway:
+    enabled: false  # Migrations run by core service only
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: 6379
+      password: ${REDIS_PASSWORD:}
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9094}
+    consumer:
+      group-id: ai-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.hiresync.common.events"
+        spring.json.value.default.type: "com.hiresync.common.events.KafkaEvent"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+server:
+  port: ${AI_SERVICE_PORT:8082}
+
+# LangChain4j — Google Gemini (FREE)
+langchain4j:
+  google-ai-gemini:
+    chat-model:
+      api-key: ${GEMINI_API_KEY}
+      model-name: gemini-1.5-flash
+      temperature: 0.3
+      max-output-tokens: 2048
+      log-requests: false   # NEVER log — prompts may contain user resume data
+      log-responses: false
+    streaming-chat-model:
+      api-key: ${GEMINI_API_KEY}
+      model-name: gemini-1.5-flash
+      temperature: 0.3
+      max-output-tokens: 2048
+
+app:
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000}
+  jwt:
+    secret: ${JWT_SECRET:default-dev-secret-change-in-production-min-256-bits}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://${ZIPKIN_HOST:localhost}:9411/api/v2/spans
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    com.hiresync: DEBUG
+    dev.langchain4j: INFO

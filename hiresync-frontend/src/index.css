@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background-color: #0f0f1a;
+    color: #f1f5f9;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #1a1a2e;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #4f54e7;
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-hover {
+    @apply glass transition-all duration-200;
+  }
+
+  .glass-hover:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(99, 114, 242, 0.4);
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-semibold px-4 py-2 rounded-xl
+           transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] shadow-lg;
+  }
+
+  .btn-secondary {
+    @apply glass text-slate-300 hover:text-white font-medium px-4 py-2 rounded-xl
+           transition-all duration-200 hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .card {
+    @apply glass rounded-2xl p-5 animate-fade-in;
+  }
+
+  .input-field {
+    @apply w-full bg-surface-50 border border-white/10 rounded-xl px-4 py-3 text-white
+           placeholder:text-slate-500 focus:outline-none focus:border-primary-500
+           focus:ring-1 focus:ring-primary-500/50 transition-all duration-200;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold;
+  }
+
+  .badge-success { @apply badge bg-emerald-500/20 text-emerald-400; }
+  .badge-warning { @apply badge bg-amber-500/20 text-amber-400; }
+  .badge-danger  { @apply badge bg-red-500/20 text-red-400; }
+  .badge-info    { @apply badge bg-blue-500/20 text-blue-400; }
+  .badge-primary { @apply badge bg-primary-500/20 text-primary-400; }
+}
