@@ -130,7 +130,7 @@ public class ResumeService {
     private String extractText(MultipartFile file, String mimeType) {
         try {
             if ("application/pdf".equals(mimeType)) {
-                try (PDDocument doc = PDDocument.load(file.getInputStream())) {
+                try (PDDocument doc = org.apache.pdfbox.Loader.loadPDF(new org.apache.pdfbox.io.RandomAccessReadBuffer(file.getInputStream()))) {
                     return new PDFTextStripper().getText(doc);
                 }
             } else {
